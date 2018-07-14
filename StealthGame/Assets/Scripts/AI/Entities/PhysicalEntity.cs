@@ -7,11 +7,11 @@ public interface IPhysicalEntity : IEntity
 
 public class PhysicalEntity : IPhysicalEntity
 {
-    private readonly Transform _transform;
+    readonly Transform _transform;
 
     public PhysicalEntity(Transform transform)
     {
-        this._transform = transform;
+        _transform = transform;
     }
 
     public Vector3 Position { get { return _transform.position; } set { _transform.position = value; } }
