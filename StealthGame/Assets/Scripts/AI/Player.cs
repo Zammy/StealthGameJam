@@ -7,8 +7,13 @@ using UnityEngine.AI;
 public class Player : MonoBehaviour
 {
     [Header("State")]
-    public float NoiseLevel;
+    public float NoiseLevel = 100;
     public bool StealthMode;
+    public bool Moving;
+
+    private float clickTime = .25f;
+    public Vector3 LastPos;
+    public float Speed;
 
     [Header("Settings")]
     public float EyesightFOV = 90;
@@ -31,6 +36,18 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Speed = Vector3.Distance(LastPos, this.transform.position) / Time.deltaTime;
+        if (Speed > 0) Moving = true; else Moving = false;
+
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            StealthMode = !StealthMode;
+        }
+
+        NoiseLevel = 100 * (StealthMode ? 0.5f : 1) * (Moving ? 1 : 0.5f);
+
+
         if (Input.GetMouseButtonDown(0))
         {
             if (_goto != null)
@@ -47,5 +64,7 @@ public class Player : MonoBehaviour
                 _goto = StartCoroutine(Move.Do(GetComponent<IEntityContainer>(), destination));
             }
         }
+
+        LastPos = this.transform.position;
     }
 }

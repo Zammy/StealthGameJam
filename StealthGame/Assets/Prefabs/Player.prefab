@@ -2826,6 +2826,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoiseLevel: 0
   StealthMode: 0
+  Moving: 0
+  LastPos: {x: 0, y: 0, z: 0}
+  Speed: 0
   EyesightFOV: 90
   EyesightDistance: 25
   Head: {fileID: 4321921672278612}
