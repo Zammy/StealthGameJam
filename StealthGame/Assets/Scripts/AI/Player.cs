@@ -24,8 +24,7 @@ public class Player : MonoBehaviour
         entityContainer.AddEntity(new PhysicalEntity(transform));
         entityContainer.AddEntity(new EyesightEntity(EyesightFOV, EyesightDistance, Head));
 
-        ServiceLocator.Instance.GetService<IVisibilitySystem>()
-            .AddEntity(entityContainer);
+        ServiceLocator.Instance.GetService<IVisibilitySystem>().AddEntity(entityContainer);
     }
 
     Coroutine _goto;

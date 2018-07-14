@@ -5,11 +5,11 @@ using UnityEngine;
 public class CameraChaser : MonoBehaviour {
 
     public Transform Target;
-    public float speed = 0.3f;
+    public float speed = 0.1f;
 
 	// Use this for initialization
 	void Start () {
-        GameObject.FindWithTag("")
+        Target = GameObject.FindWithTag("Player").transform;
 		
 	}
 	
