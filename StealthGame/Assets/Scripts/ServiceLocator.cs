@@ -11,10 +11,15 @@ public interface IInitializable
     void Init();
 }
 
-public interface ILateInitializable
+public interface ITickable
 {
-    void LateInit();
+    void Update();
 }
+
+// public interface ILateInitializable
+// {
+//     void LateInit();
+// }
 
 public interface IDestroyable
 {
@@ -72,14 +77,14 @@ public class ServiceLocator : Singleton<ServiceLocator>
         }
     }
 
-    public void LateInitServices()
-    {
-        var toInit = GetServicesThatImplement<ILateInitializable>();
-        foreach (var item in toInit)
-        {
-            item.LateInit();
-        }
-    }
+    // public void LateInitServices()
+    // {
+    //     var toInit = GetServicesThatImplement<ILateInitializable>();
+    //     foreach (var item in toInit)
+    //     {
+    //         item.LateInit();
+    //     }
+    // }
 
     public void DestroyServices()
     {
@@ -87,6 +92,15 @@ public class ServiceLocator : Singleton<ServiceLocator>
         foreach (var item in toDestroy)
         {
             item.Destroy();
+        }
+    }
+
+    public void UpdateServices()
+    {
+        var toTick = GetServicesThatImplement<ITickable>();
+        foreach (var item in toTick)
+        {
+            item.Update();
         }
     }
 
