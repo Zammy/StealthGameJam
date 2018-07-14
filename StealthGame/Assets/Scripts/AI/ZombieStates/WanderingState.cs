@@ -24,12 +24,15 @@ public class WanderingState : ISMState
     public IEnumerator OnStateExecute(StateMachine stateMachine)
     {
         var physicalEntity = _entityContainer.GetEntity<IPhysicalEntity>();
+        var agent = _entityContainer.GetEntity<INavMeshAgent>();
         while (true)
         {
             float distance = Random.Range(_data.MinDistance, _data.MaxDistance);
-            var dest = physicalEntity.Position.RandomPosAround(distance);
-
+            Vector3 dest = physicalEntity.Position.RandomPosAround(distance);
+            dest = agent.GetClosestToNavMeshPoint(dest);
             yield return Move.Do(_entityContainer, dest);
+
+            yield return new WaitForSeconds(Random.Range(_data.MinWait, _data.MaxWait));
         }
     }
 

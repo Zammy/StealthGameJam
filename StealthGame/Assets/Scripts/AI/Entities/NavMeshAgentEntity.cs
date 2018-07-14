@@ -4,8 +4,8 @@ using UnityEngine.AI;
 public interface INavMeshAgent : IEntity
 {
     bool IsDestinationReached();
-
     void SetDestination(Vector3 destination);
+    Vector3 GetClosestToNavMeshPoint(Vector3 point);
 }
 
 public class NavMeshAgentEntity : INavMeshAgent
@@ -26,5 +26,15 @@ public class NavMeshAgentEntity : INavMeshAgent
     public void SetDestination(Vector3 destination)
     {
         _agent.SetDestination(destination);
+    }
+
+    public Vector3 GetClosestToNavMeshPoint(Vector3 point)
+    {
+        NavMeshHit hit;
+        if (_agent.Raycast(point, out hit))
+        {
+            return hit.position;
+        }
+        return point;
     }
 }

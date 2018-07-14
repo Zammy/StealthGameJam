@@ -11,5 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974951eec380c88479e02acceee44966, type: 3}
   m_Name: WanderingData
   m_EditorClassIdentifier: 
-  MinDistance: 1
+  MinDistance: 2
   MaxDistance: 5
+  MinWait: 1
+  MaxWait: 10
