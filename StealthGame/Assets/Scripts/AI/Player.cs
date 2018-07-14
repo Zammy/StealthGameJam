@@ -11,16 +11,19 @@ public class Player : MonoBehaviour
     public bool StealthMode;
     public bool Moving;
 
-    private float clickTime = .25f;
-    public Vector3 LastPos;
-    public float Speed;
-
     [Header("Settings")]
     public float EyesightFOV = 90;
     public float EyesightDistance = 25;
+    public float StealthSpeed = 1;
+    public float RunSpeed = 2.5f;
+    public float clickTime = .25f;
+
 
     [Header("References")]
     public Transform Head;
+
+    private Vector3 LastPos;
+    private float Speed;
 
     void Start()
     {
@@ -36,16 +39,21 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Speed = Vector3.Distance(LastPos, this.transform.position) / Time.deltaTime;
-        if (Speed > 0) Moving = true; else Moving = false;
-
-
         if (Input.GetMouseButtonDown(1))
         {
+            if (StealthMode)
+                GetComponent<NavMeshAgent>().speed = RunSpeed;
+            else
+                GetComponent<NavMeshAgent>().speed = StealthSpeed;
+
             StealthMode = !StealthMode;
         }
 
-        NoiseLevel = 100 * (StealthMode ? 0.5f : 1) * (Moving ? 1 : 0.5f);
+        Speed = Vector3.Distance(LastPos, this.transform.position) / Time.deltaTime;
+        if (Speed > 0) Moving = true; else Moving = false;
+
+        NoiseLevel = 100 * (StealthMode ? 0.3f : 1) * (Moving ? 1 : 0);
+
 
 
         if (Input.GetMouseButtonDown(0))
