@@ -51,8 +51,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4288999387556006}
-  - component: {fileID: 114988575692892776}
   - component: {fileID: 114773677751872200}
+  - component: {fileID: 114988575692892776}
+  - component: {fileID: 114360815160497802}
   - component: {fileID: 195431071268894242}
   m_Layer: 0
   m_Name: Zombie
@@ -100,7 +101,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1408653651062566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7, y: 0, z: 7}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4464968887632486}
@@ -218,6 +219,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1377094097461888}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114360815160497802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1408653651062566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35899d7ff8fd6ce4488a3a796c8fcead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StateData:
+  - {fileID: 11400000, guid: 22a1e16419740c7428bf01de57302e00, type: 2}
 --- !u!114 &114773677751872200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -263,7 +277,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 2
-  m_Acceleration: 8
+  m_Acceleration: 3
   avoidancePriority: 50
   m_AngularSpeed: 60
   m_StoppingDistance: 0.5
