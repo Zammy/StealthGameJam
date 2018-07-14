@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 114865215274840422}
   - component: {fileID: 114585485950918366}
   - component: {fileID: 195192135348890684}
+  - component: {fileID: 95186458416074728}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -547,6 +548,24 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
+--- !u!95 &95186458416074728
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1829789188944520}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 312eb3ba4b5e24d4b9dc56f29cf8acb1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114046099520243082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2827,10 +2846,11 @@ MonoBehaviour:
   NoiseLevel: 0
   StealthMode: 0
   Moving: 0
-  LastPos: {x: 0, y: 0, z: 0}
-  Speed: 0
   EyesightFOV: 90
   EyesightDistance: 25
+  StealthSpeed: 1
+  RunSpeed: 2.5
+  clickTime: 0.25
   Head: {fileID: 4321921672278612}
 --- !u!114 &114865215274840422
 MonoBehaviour:

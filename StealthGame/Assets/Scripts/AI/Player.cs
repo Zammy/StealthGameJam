@@ -25,8 +25,6 @@ public class Player : MonoBehaviour
     private Vector3 LastPos;
     private float Speed;
 
-    private Animator PlayerAnimator;
-
     void Start()
     {
         var entityContainer = GetComponent<IEntityContainer>();
