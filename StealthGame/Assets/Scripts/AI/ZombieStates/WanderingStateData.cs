@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class WanderingStateData : SMStateData
 {
+    public float MovementSpeed;
     public float MinDistance;
     public float MaxDistance;
     public float MinWait;

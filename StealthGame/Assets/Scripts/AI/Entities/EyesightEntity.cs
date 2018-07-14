@@ -10,14 +10,11 @@ public class EyesightEntity : IEntity
     public Vector3 EyeDirection { get { return _headTransform.forward; } }
     public Vector3 HeadPosition { get { return _headTransform.position; } }
 
-    public List<SpottableEntity> SpottedEntities { get; private set; }
 
     public EyesightEntity(float fov, float distance, Transform headTransform)
     {
         Distance = distance;
         FOV = fov;
         _headTransform = headTransform;
-
-        SpottedEntities = new List<SpottableEntity>();
     }
 }

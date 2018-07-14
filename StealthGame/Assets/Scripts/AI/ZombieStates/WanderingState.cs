@@ -19,6 +19,8 @@ public class WanderingState : ISMState
 
     public void OnStateEnter()
     {
+        var agent = _entityContainer.GetEntity<INavMeshAgent>();
+        agent.MovementSpeed = _data.MovementSpeed;
     }
 
     public IEnumerator OnStateExecute(StateMachine stateMachine)

@@ -12,6 +12,11 @@ public interface ISMState
     void OnStateExit();
 }
 
+public interface IOverrideState : ISMState
+{
+    bool OverrideCurrentState();
+}
+
 public abstract class SMStateData : ScriptableObject
 {
     public abstract Type GetStateType();
@@ -29,6 +34,20 @@ public class StateMachine : MonoBehaviour
     void Awake()
     {
         _states = new Dictionary<Type, ISMState>();
+    }
+
+    void Update()
+    {
+        foreach (var kvp in _states)
+        {
+            var overrideState = kvp.Value as IOverrideState;
+            if (overrideState != null 
+                && _currentState != overrideState 
+                && overrideState.OverrideCurrentState())
+            {
+                ChangeState(overrideState.GetType());
+            }
+        }
     }
 
     public void AddState(ISMState state)

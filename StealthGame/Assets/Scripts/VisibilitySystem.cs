@@ -12,44 +12,38 @@ public class VisibilitySystem : IVisibilitySystem
 {
     IEntityContainer _player;
     readonly List<IEntityContainer> _enemies;
+    readonly VisibilitySettings _settings;
 
     public VisibilitySystem()
     {
         _enemies = new List<IEntityContainer>();
+        _settings = Resources.LoadAll<VisibilitySettings>("")[0];
     }
 
     public void Update()
     {
-        var eyesight = _player.GetEntity<EyesightEntity>();
+        var playerEyesight = _player.GetEntity<EyesightEntity>();
+        var playerSpottable = _player.GetEntity<SpottableEntity>();
         var playerPhysical = _player.GetEntity<IPhysicalEntity>();
-        foreach (var e in _enemies)
+        foreach (var enemy in _enemies)
         {
-            var enemyPhysical = e.GetEntity<IPhysicalEntity>();
-            var enemySpottable = e.GetEntity<SpottableEntity>();
-            bool spotted = false;
+            var enemySpottable = enemy.GetEntity<SpottableEntity>();
 
-            var playerToEnemyDirection = enemyPhysical.Position - playerPhysical.Position;
+            enemySpottable.Spotted = IsSpotted(playerEyesight, enemySpottable);
 
-            float angle = Vector3.Angle(eyesight.EyeDirection, playerToEnemyDirection);
-            if (angle * 2 < eyesight.FOV)
+            var enemyEyesight = enemy.GetEntity<EnemyEyesightEntity>();
+            if (IsSpotted(enemyEyesight, playerSpottable))
             {
-                playerToEnemyDirection.y = .5f;
-                var results = Physics.RaycastAll(eyesight.HeadPosition, playerToEnemyDirection, eyesight.Distance);
-                var sortedResults = results.OrderBy(k => (playerPhysical.Position - k.collider.transform.position).sqrMagnitude);
-                foreach (RaycastHit result in sortedResults)
+                enemyEyesight.PlayerTimeBeingSpotted += Time.deltaTime;
+                if (enemyEyesight.PlayerTimeBeingSpotted > _settings.TimeForZombieToNoticePlayer)
                 {
-                    if (result.collider.tag.Equals("VisibilityObstacle"))
-                    {
-                        break;
-                    }
-                    if (result.collider == enemySpottable.Collider)
-                    {
-                        spotted = true;
-                        break;
-                    }
+                    enemyEyesight.PlayerSpottedPosition = playerPhysical.Position;
                 }
             }
-            enemySpottable.Spotted = spotted;
+            else
+            {
+                enemyEyesight.PlayerTimeBeingSpotted = 0f;
+            }
         }
     }
 
@@ -61,5 +55,33 @@ public class VisibilitySystem : IVisibilitySystem
     public void AddPlayer(IEntityContainer entityContainer)
     {
         _player = entityContainer;
+    }
+
+    bool IsSpotted(EyesightEntity eyesight, SpottableEntity spottable)
+    {
+        Vector3 eyePos = eyesight.HeadPosition;
+        var spotPos = spottable.Collider.transform.position;
+        spotPos.y = _settings.TargetHeightEyesight;
+        var diff = spotPos - eyePos;
+        float angle = Vector3.Angle(eyesight.EyeDirection, diff);
+        if (angle * 2 < eyesight.FOV)
+        {
+            Debug.DrawRay(eyePos, diff.normalized * eyesight.Distance, Color.red, .1f);
+
+            var results = Physics.RaycastAll(eyePos, diff.normalized, eyesight.Distance);
+            var sortedResults = results.OrderBy(k => (eyePos - k.collider.transform.position).sqrMagnitude);
+            foreach (RaycastHit result in sortedResults)
+            {
+                if (result.collider.tag.Equals("VisibilityObstacle"))
+                {
+                    break;
+                }
+                if (result.collider == spottable.Collider)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

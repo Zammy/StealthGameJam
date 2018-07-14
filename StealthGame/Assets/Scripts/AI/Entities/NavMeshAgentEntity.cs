@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public interface INavMeshAgent : IEntity
 {
+    float MovementSpeed { get; set; }
     bool IsDestinationReached();
     void SetDestination(Vector3 destination);
     Vector3 GetClosestToNavMeshPoint(Vector3 point);
@@ -16,6 +17,8 @@ public class NavMeshAgentEntity : INavMeshAgent
     {
         _agent = agent;
     }
+
+    public float MovementSpeed { get { return _agent.speed; } set { _agent.speed = value; } }
 
     public bool IsDestinationReached()
     {
