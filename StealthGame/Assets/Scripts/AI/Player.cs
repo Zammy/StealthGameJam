@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public float StealthSpeed = 1;
     public float RunSpeed = 2.5f;
     public float clickTime = .25f;
+    public float HeadTurnSpeed = .25f;
 
 
     [Header("References")]
@@ -64,16 +65,21 @@ public class Player : MonoBehaviour
             if (Physics.Raycast(ray, out hitInfo, float.MaxValue, LayerMask.GetMask("Ground")))
             {   
                 LookatTarget.transform.position = new Vector3(hitInfo.point.x, Head.transform.position.y, hitInfo.point.z);
+                LookatMode = true;
             }
         }
 
         if (LookatMode)
         {
+            //Vector3 direction = LookatTarget.transform.position - Head.transform.position;
+            //Quaternion toRotation = Quaternion.FromToRotation(Head.transform.forward, direction);
+            //Head.transform.rotation = Quaternion.Lerp(Head.transform.rotation, toRotation, HeadTurnSpeed * Time.time);
             Head.transform.LookAt(LookatTarget.transform.position);
+           // if (Mathf.Abs(Head.transform.localEulerAngles.y) > 90) LookatMode = false;
         }
         else
-        {   
-            
+        {
+            Head.transform.LookAt(LookAhead.transform.position);
         }
 
         Speed = Vector3.Distance(LastPos, this.transform.position) / Time.deltaTime;
@@ -86,6 +92,7 @@ public class Player : MonoBehaviour
         {
             Moving = false;
             GetComponent<Animator>().SetBool("Moving",false);
+            //GetComponent<Animator>().SetBool("Stealth", true);
         }
         
 
@@ -108,6 +115,7 @@ public class Player : MonoBehaviour
 
         if (ClickCounter == 2)
         {
+            LookatMode = false;
             GetComponent<NavMeshAgent>().speed = RunSpeed;
             GetComponent<Animator>().SetBool("Stealth", false);
 
