@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
     [Header("Settings")]
     public float EyesightFOV = 90;
-    public float EyesightDistance = 25;
+    public float EyesightDistance = 25f;
     public float StealthSpeed = 1;
     public float RunSpeed = 2.5f;
     public float clickTime = .25f;
@@ -32,8 +32,8 @@ public class Player : MonoBehaviour
         entityContainer.AddEntity(new PhysicalEntity(transform));
         entityContainer.AddEntity(new EyesightEntity(EyesightFOV, EyesightDistance, Head));
 
-        //ServiceLocator.Instance.GetService<IVisibilitySystem>().AddEntity(entityContainer);
-    }
+        ServiceLocator.Instance.GetService<IVisibilitySystem>().AddPlayer(entityContainer);
+   }
 
     Coroutine _goto;
 

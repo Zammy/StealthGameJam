@@ -8,6 +8,7 @@ public class EyesightEntity : IEntity
     public float Distance { get; private set; }
     public float FOV { get; private set; }
     public Vector3 EyeDirection { get { return _headTransform.forward; } }
+    public Vector3 HeadPosition { get { return _headTransform.position; } }
 
     public List<SpottableEntity> SpottedEntities { get; private set; }
 
