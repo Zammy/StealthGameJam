@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     private Vector3 LastPos;
     private float Speed;
 
+    private Animator PlayerAnimator;
+
     void Start()
     {
         var entityContainer = GetComponent<IEntityContainer>();
@@ -32,7 +34,7 @@ public class Player : MonoBehaviour
         entityContainer.AddEntity(new PhysicalEntity(transform));
         entityContainer.AddEntity(new EyesightEntity(EyesightFOV, EyesightDistance, Head));
 
-        ServiceLocator.Instance.GetService<IVisibilitySystem>().AddEntity(entityContainer);
+        //ServiceLocator.Instance.GetService<IVisibilitySystem>().AddEntity(entityContainer);
     }
 
     Coroutine _goto;
@@ -42,15 +44,32 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             if (StealthMode)
+            {
                 GetComponent<NavMeshAgent>().speed = RunSpeed;
+                GetComponent<Animator>().SetBool("Stealth", false);
+            }
             else
+            {
                 GetComponent<NavMeshAgent>().speed = StealthSpeed;
+                GetComponent<Animator>().SetBool("Stealth", true);
+            }
+                
 
             StealthMode = !StealthMode;
         }
 
         Speed = Vector3.Distance(LastPos, this.transform.position) / Time.deltaTime;
-        if (Speed > 0) Moving = true; else Moving = false;
+        if (Speed > 0)
+        {
+            Moving = true;
+            GetComponent<Animator>().SetBool("Moving", true);
+        }
+        else
+        {
+            Moving = false;
+            GetComponent<Animator>().SetBool("Moving",false);
+        }
+        
 
         NoiseLevel = 100 * (StealthMode ? 0.3f : 1) * (Moving ? 1 : 0);
 
