@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
            
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
             if (Physics.Raycast(ray, out hitInfo, float.MaxValue, LayerMask.GetMask("Ground")))
             {   
                 LookatTarget.transform.position = new Vector3(hitInfo.point.x, Head.transform.position.y, hitInfo.point.z);
-                LookatMode = true;
+                if (StealthMode || !Moving) LookatMode = true;
             }
         }
 
@@ -94,7 +94,8 @@ public class Player : MonoBehaviour
             GetComponent<Animator>().SetBool("Moving",false);
             //GetComponent<Animator>().SetBool("Stealth", true);
         }
-        
+
+        if (Moving && !StealthMode) LookatMode = false;
 
         NoiseLevel = 100 * (StealthMode ? 0.3f : 1) * (Moving ? 1 : 0);
 
@@ -115,8 +116,8 @@ public class Player : MonoBehaviour
 
         if (ClickCounter == 2)
         {
-            LookatMode = false;
             GetComponent<NavMeshAgent>().speed = RunSpeed;
+            StealthMode = false;
             GetComponent<Animator>().SetBool("Stealth", false);
 
             if (_goto != null)
@@ -140,6 +141,7 @@ public class Player : MonoBehaviour
         if (ClickCounter == 1 && Time.time - lastClickTime > clickTime)
         {
             GetComponent<NavMeshAgent>().speed = StealthSpeed;
+            StealthMode = true;
             GetComponent<Animator>().SetBool("Stealth", true);
 
             if (_goto != null)
@@ -159,7 +161,6 @@ public class Player : MonoBehaviour
             ClickCounter = 0;
         }
         
-
         LastPos = this.transform.position;
     }
 }
