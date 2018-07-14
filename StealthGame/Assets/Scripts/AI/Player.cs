@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class Player: MonoBehaviour
 {
+    public float NoiseLevel;
+    public bool StealthMode;
+
+    public Transform Head;
+
     void Start()
     {
         var entityContainer = GetComponent<IEntityContainer>();
