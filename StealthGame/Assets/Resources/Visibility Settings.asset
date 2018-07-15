@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c082246efcbd92448ab33632310fecf, type: 3}
   m_Name: Visibility Settings
   m_EditorClassIdentifier: 
-  TargetHeightEyesight: 0.5
+  TargetHeightEyesight: 0.8
   TimeForZombieToNoticePlayer: 0.25
   FakeVisionTime: 0.25
