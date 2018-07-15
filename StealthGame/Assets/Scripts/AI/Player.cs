@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public float NoiseLevel = 100;
     public bool StealthMode;
     public bool Moving;
+    public bool DebugMode = true;
 
     [Header("Settings")]
     public float EyesightFOV = 90;
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     private float Speed;
     private float lastClickTime = 0;
     private int ClickCounter=0;
+    private Vector3 destination;
 
     
     
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour
         LookatTarget.GetComponent<SphereCollider>().enabled = false;
         LookatTarget.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
         LookatTarget.transform.position = LookAhead.transform.position;
+        if (!DebugMode) LookatTarget.GetComponent<MeshRenderer>().enabled = false;
     }
 
     Coroutine _goto;
@@ -102,6 +105,14 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo, float.MaxValue, LayerMask.GetMask("Ground")))
+            {
+                destination = hitInfo.point;
+            }
+
             if (Time.time - lastClickTime < clickTime && ClickCounter == 1)
             {
                 ClickCounter = 2;
@@ -125,14 +136,7 @@ public class Player : MonoBehaviour
                 StopCoroutine(_goto);
                 _goto = null;
             }
-
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, float.MaxValue, LayerMask.GetMask("Ground")))
-            {
-                var destination = hitInfo.point;
-                _goto = StartCoroutine(Move.Do(GetComponent<IEntityContainer>(), destination));
-            }
+            _goto = StartCoroutine(Move.Do(GetComponent<IEntityContainer>(), destination));
 
             Debug.Log("Double click.");
             ClickCounter = 0;
@@ -149,14 +153,8 @@ public class Player : MonoBehaviour
                 StopCoroutine(_goto);
                 _goto = null;
             }
+            _goto = StartCoroutine(Move.Do(GetComponent<IEntityContainer>(), destination));
 
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, float.MaxValue, LayerMask.GetMask("Ground")))
-            {
-                var destination = hitInfo.point;
-                _goto = StartCoroutine(Move.Do(GetComponent<IEntityContainer>(), destination));
-            }
             Debug.Log("Single Click.");
             ClickCounter = 0;
         }
