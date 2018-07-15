@@ -33,6 +33,9 @@ public class Player : MonoBehaviour
     public Transform PeekRight;
     public Transform PeekUp;
     public Transform PeekCenter;
+    public bool PeekLeftFree;
+    public bool PeekRightFree;
+    public bool PeekUpFree;
 
     private Vector3 LastPos;
     private float Speed;
@@ -185,11 +188,12 @@ public class Player : MonoBehaviour
         Peeking = -1;
         if (!Moving && LookatMode)
         {
-            Ray RayCenter = new Ray(PeekCenter.position, PeekCenter.forward);
+            Ray RayCenter = new Ray(PeekCenter.position, Head.transform.forward);
             Ray RayLeft = new Ray(PeekLeft.position, PeekLeft.forward);
             Ray RayRight = new Ray(PeekRight.position, PeekRight.forward);
             Ray RayUp = new Ray(PeekUp.position, PeekUp.forward);
-            
+            PeekLeftFree = false; PeekRightFree = false; PeekUpFree = false;
+
             RaycastHit hitInfo;
 
             if (Physics.Raycast(RayCenter, out hitInfo, PeekingDistance))
@@ -199,17 +203,14 @@ public class Player : MonoBehaviour
                     Debug.Log("Peek: Center Hit.");
                     Peeking = 0;
 
+                    PeekLeftFree = true; PeekRightFree = true; PeekUpFree = true;
                     //Left test
                     if (Physics.Raycast(RayLeft, out hitInfo, PeekingDistance))
                     {
                         if (hitInfo.collider.tag == "VisibilityObstacle")
                         {
                             Debug.Log("Peeking: Left Hit.");
-                        }
-                        else
-                        {
-                            Debug.Log("Peeking: Left free.");
-                            Peeking = 1;
+                            PeekLeftFree = false;
                         }
                     }
 
@@ -219,11 +220,7 @@ public class Player : MonoBehaviour
                         if (hitInfo.collider.tag == "VisibilityObstacle")
                         {
                             Debug.Log("Peeking: Right Hit.");
-                        }
-                        else
-                        {
-                            Debug.Log("Peeking: Right free.");
-                            Peeking = 2;
+                            PeekRightFree = false;
                         }
                     }
 
@@ -233,15 +230,24 @@ public class Player : MonoBehaviour
                         if (hitInfo.collider.tag == "VisibilityObstacle")
                         {
                             Debug.Log("Peeking: Up Hit.");
-                        }
-                        else
-                        {
-                            Debug.Log("Peeking: Up free.");
-                            Peeking = 3;
+                            PeekUpFree = false;
                         }
                     }
                 }
             }
         }
+        if (LookatMode && !Moving && Peeking != -1)
+        {
+            if(PeekLeftFree) GetComponent<Animator>().SetInteger("Peeking",1);
+            if (PeekRightFree) GetComponent<Animator>().SetInteger("Peeking", 2);
+            if (PeekUpFree) GetComponent<Animator>().SetInteger("Peeking", 3);
+        }
+
+        if (Moving || !LookatMode)
+        {
+            GetComponent<Animator>().SetInteger("Peeking", -1);
+            Peeking = -1;
+        }
+        
     }
 }
