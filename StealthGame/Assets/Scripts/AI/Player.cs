@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     private float lastClickTime = 0;
     private int ClickCounter=0;
     private Vector3 destination;
+    private Vector3 PeekFacingWall;
 
     
     public bool LookatMode = false;
@@ -202,6 +203,7 @@ public class Player : MonoBehaviour
                 {
                     Debug.Log("Peek: Center Hit.");
                     Peeking = 0;
+                    PeekFacingWall = -hitInfo.normal;
 
                     PeekLeftFree = true; PeekRightFree = true; PeekUpFree = true;
                     //Left test
@@ -238,7 +240,9 @@ public class Player : MonoBehaviour
         }
         if (LookatMode && !Moving && Peeking != -1)
         {
-            if(PeekLeftFree) GetComponent<Animator>().SetInteger("Peeking",1);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(PeekFacingWall), 0.2f);
+
+            if (PeekLeftFree) GetComponent<Animator>().SetInteger("Peeking",1);
             if (PeekRightFree) GetComponent<Animator>().SetInteger("Peeking", 2);
             if (PeekUpFree) GetComponent<Animator>().SetInteger("Peeking", 3);
         }
