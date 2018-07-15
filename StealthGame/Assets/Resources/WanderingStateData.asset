@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: WanderingStateData
   m_EditorClassIdentifier: 
   MovementSpeed: 1
+  ExtraNoiseWhenWalking: 50
   MinDistance: 2
   MaxDistance: 5
   MinWait: 1

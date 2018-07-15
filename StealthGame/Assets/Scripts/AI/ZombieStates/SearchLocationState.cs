@@ -1,57 +1,44 @@
 using System.Collections;
 using UnityEngine;
 
-public class SearchLocationState : IOverrideState
+public class SearchLocationState : BaseState, IOverrideState
 {
-    readonly IEntityContainer _entityContainer;
-
-    SearchLocationStateData _data;
-
     public SearchLocationState(IEntityContainer entityContainer)
+        : base(entityContainer)
     {
-        _entityContainer = entityContainer;
     }
 
-    public void SetData(SMStateData data)
-    {
-        _data = (SearchLocationStateData)data;
-    }
-
-    public void OnStateEnter()
-    {
-        var agent = _entityContainer.GetEntity<INavMeshAgent>();
-        agent.MovementSpeed = _data.MovementSpeed;
-    }
-
-    public bool OverrideCurrentState(ISMState currentState)
+    public bool ShouldOverrideCurrentState(ISMState currentState)
     {
         var hearing = _entityContainer.GetEntity<HearingEntity>();
-        return hearing.NoiseLocations.Count > 0 && currentState.GetType() != typeof(ChaseState);
+        return hearing.NoiseEntities.Count > 0 && currentState.GetType() != typeof(ChaseState);
     }
 
-    public IEnumerator OnStateExecute(StateMachine sm)
+    public override IEnumerator OnStateExecute(StateMachine sm)
     {
         var hearing = _entityContainer.GetEntity<HearingEntity>();
         var agent = _entityContainer.GetEntity<INavMeshAgent>();
-        while (hearing.NoiseLocations.Count > 0)
+        var noise = _entityContainer.GetEntity<NoiseProducerEntity>();
+        noise.NoiseLevel += Data.ExtraNoiseWhenWalking;
+        while (hearing.NoiseEntities.Count > 0)
         {
-            agent.SetDestination(hearing.NoiseLocations[0]);
+            var noisePos = hearing.NoiseEntities[0].GetEntity<IPhysicalEntity>().Position;
+            agent.SetDestination(noisePos);
             yield return null;
         }
         while (!agent.IsDestinationReached())
         {
             yield return null;
         }
+        noise.NoiseLevel -= Data.ExtraNoiseWhenWalking;
 
         var phyiscal = _entityContainer.GetEntity<IPhysicalEntity>();
-        yield return sm.StartCoroutine(Rotation.Do(phyiscal, _data.AngleLookAround, _data.LookAroundDuration / 4));
-        yield return sm.StartCoroutine(Rotation.Do(phyiscal, _data.AngleLookAround * -2, _data.LookAroundDuration / 2));
-        yield return sm.StartCoroutine(Rotation.Do(phyiscal, _data.AngleLookAround, _data.LookAroundDuration / 4));
+        yield return sm.StartCoroutine(Rotation.Do(phyiscal, Data.AngleLookAround, Data.LookAroundDuration / 4));
+        yield return sm.StartCoroutine(Rotation.Do(phyiscal, Data.AngleLookAround * -2, Data.LookAroundDuration / 2));
+        yield return sm.StartCoroutine(Rotation.Do(phyiscal, Data.AngleLookAround, Data.LookAroundDuration / 4));
 
         sm.ChangeState(typeof(WanderingState));
     }
 
-    public void OnStateExit()
-    {
-    }
+    SearchLocationStateData Data { get { return (SearchLocationStateData)base._data; } }
 }

@@ -19,7 +19,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] float EyesightFOV = 90;
     [SerializeField] float EyesightDistance = 25f;
     [SerializeField] float NoiseDistanceDiminution = 12f;
-    [SerializeField] float BaseNoiseLevel = 150f;
+    [SerializeField] float BaseNoiseLevel = 50f;
 
     void Start()
     {

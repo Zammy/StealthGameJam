@@ -1,35 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-public class ChaseState : IOverrideState
+public class ChaseState : BaseState, IOverrideState
 {
-    readonly IEntityContainer _entityContainer;
-
-    ChaseStateData _data;
-
     public ChaseState(IEntityContainer entityContainer)
+        : base(entityContainer)
     {
-        _entityContainer = entityContainer;
     }
 
-    public void SetData(SMStateData data)
-    {
-        _data = (ChaseStateData)data;
-    }
-
-    public bool OverrideCurrentState(ISMState currentState)
+    public bool ShouldOverrideCurrentState(ISMState currentState)
     {
         var eyesight = _entityContainer.GetEntity<EnemyEyesightEntity>();
         return eyesight.PlayerSpottedPosition != null;
     }
 
-    public void OnStateEnter()
-    {
-        var agent = _entityContainer.GetEntity<INavMeshAgent>();
-        agent.MovementSpeed = _data.MovementSpeed;
-    }
-
-    public IEnumerator OnStateExecute(StateMachine stateMachine)
+    public override IEnumerator OnStateExecute(StateMachine stateMachine)
     {
         var eyesight = _entityContainer.GetEntity<EnemyEyesightEntity>();
         var physical = _entityContainer.GetEntity<IPhysicalEntity>();
@@ -47,7 +32,4 @@ public class ChaseState : IOverrideState
         stateMachine.ChangeState(typeof(WanderingState));
     }
 
-    public void OnStateExit()
-    {
-    }
 }

@@ -32,11 +32,11 @@ public class HearingSystem : IHearingSystem
     public void Update()
     {
         _player.GetEntity<HearingEntity>()
-            .NoiseLocations.Clear();
+            .NoiseEntities.Clear();
         foreach (var enemy in _enemies)
         {
             var enemyHearing = enemy.GetEntity<HearingEntity>();
-            enemyHearing.NoiseLocations.Clear();
+            enemyHearing.NoiseEntities.Clear();
 
             CheckHearing(enemy, _player);
             CheckHearing(_player, enemy);
@@ -55,7 +55,7 @@ public class HearingSystem : IHearingSystem
         float diminuation = distance * hearing.NoiseDistanceDiminution;
         if (noise.NoiseLevel - diminuation > 0)
         {
-            hearing.NoiseLocations.Add(noiseMakingPhysical.Position);
+            hearing.NoiseEntities.Add(noiseMakingOne);
         }
     }
 }

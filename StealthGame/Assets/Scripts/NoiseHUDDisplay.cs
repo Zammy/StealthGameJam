@@ -21,8 +21,15 @@ public class NoiseHUDDisplay : MonoBehaviour
     {
         _images.ForEach(i => i.gameObject.SetActive(false));
 
-        foreach (var noisePos in GetPlayerHearingEntity().NoiseLocations)
+        foreach (var noiseEntity in GetPlayerHearingEntity().NoiseEntities)
         {
+            bool isSpotted = noiseEntity.GetEntity<SpottableEntity>().Spotted;
+            if (isSpotted)
+            {
+                continue;
+            }
+            var noisePos = noiseEntity.GetEntity<IPhysicalEntity>()
+                .Position;
             var canvasPos = Camera.main.WorldToScreenPoint(noisePos);
             var image = GetFreeImage();
             image.GetComponent<RectTransform>()
@@ -52,6 +59,6 @@ public class NoiseHUDDisplay : MonoBehaviour
 
         imageGo = Instantiate(FootstepsIconPrefab, Canvas.transform);
         _images.Add(imageGo);
-		return imageGo.GetComponent<RectTransform>();
+        return imageGo.GetComponent<RectTransform>();
     }
 }

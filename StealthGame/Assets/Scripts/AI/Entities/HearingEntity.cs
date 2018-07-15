@@ -4,11 +4,11 @@ using UnityEngine;
 public class HearingEntity : IEntity
 {
     public float NoiseDistanceDiminution { get; private set; }
-    public List<Vector3> NoiseLocations { get; private set; }
+    public List<IEntityContainer> NoiseEntities { get; private set; }
 
     public HearingEntity(float noiseDistanceDiminution)
     {
         NoiseDistanceDiminution = noiseDistanceDiminution;
-        NoiseLocations = new List<Vector3>();
+        NoiseEntities = new List<IEntityContainer>();
     }
 }

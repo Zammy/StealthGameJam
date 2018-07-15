@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: ChaseStateData
   m_EditorClassIdentifier: 
   MovementSpeed: 2.25
+  ExtraNoiseWhenWalking: 150

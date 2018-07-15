@@ -2,10 +2,8 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ChaseStateData : SMStateData
+public class ChaseStateData : BaseStateData
 {
-    public float MovementSpeed;
-
     public override Type GetStateType()
     {
         return typeof(ChaseState);

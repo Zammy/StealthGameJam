@@ -1,44 +1,31 @@
 using System.Collections;
 using UnityEngine;
 
-public class WanderingState : ISMState
+public class WanderingState : BaseState
 {
-    readonly IEntityContainer _entityContainer;
-
-    WanderingStateData _data;
-
     public WanderingState(IEntityContainer entityContainer)
+        : base(entityContainer)
     {
-        _entityContainer = entityContainer;
     }
 
-    public void SetData(SMStateData data)
-    {
-        _data = (WanderingStateData)data;
-    }
-
-    public void OnStateEnter()
-    {
-        var agent = _entityContainer.GetEntity<INavMeshAgent>();
-        agent.MovementSpeed = _data.MovementSpeed;
-    }
-
-    public IEnumerator OnStateExecute(StateMachine stateMachine)
+    public override IEnumerator OnStateExecute(StateMachine stateMachine)
     {
         var physicalEntity = _entityContainer.GetEntity<IPhysicalEntity>();
         var agent = _entityContainer.GetEntity<INavMeshAgent>();
+        var noise = _entityContainer.GetEntity<NoiseProducerEntity>();
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(_data.MinWait, _data.MaxWait));
+            yield return new WaitForSeconds(Random.Range(Data.MinWait, Data.MaxWait));
 
-            float distance = Random.Range(_data.MinDistance, _data.MaxDistance);
+            float distance = Random.Range(Data.MinDistance, Data.MaxDistance);
             Vector3 dest = physicalEntity.Position.RandomPosAround(distance);
             dest = agent.GetClosestToNavMeshPoint(dest);
+            noise.NoiseLevel += Data.ExtraNoiseWhenWalking;
             yield return Move.Do(_entityContainer, dest);
+            noise.NoiseLevel -= Data.ExtraNoiseWhenWalking;
         }
     }
 
-    public void OnStateExit()
-    {
-    }
+    WanderingStateData Data { get { return (WanderingStateData)base._data; } }
+
 }

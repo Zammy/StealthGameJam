@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Name: SearchLocationStateData
   m_EditorClassIdentifier: 
   MovementSpeed: 1.5
+  ExtraNoiseWhenWalking: 80
   AngleLookAround: 60
   LookAroundDuration: 4

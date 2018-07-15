@@ -2,12 +2,9 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class SearchLocationStateData : SMStateData
+public class SearchLocationStateData : BaseStateData
 {
-    public float MovementSpeed;
-
     public float AngleLookAround;
-
     public float LookAroundDuration;
 
     public override Type GetStateType()
