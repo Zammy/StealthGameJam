@@ -8,9 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c082246efcbd92448ab33632310fecf, type: 3}
-  m_Name: Visibility Settings
+  m_Script: {fileID: 11500000, guid: 65937b6c169eab14497b679bfdbc0c65, type: 3}
+  m_Name: Hearing Settings
   m_EditorClassIdentifier: 
-  TargetHeightEyesight: 0.5
-  TimeForZombieToNoticePlayer: 0.25
-  FakeVisionTime: 0.25
+  NoiseDistanceDiminution: 15

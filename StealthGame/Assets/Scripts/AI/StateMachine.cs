@@ -14,7 +14,7 @@ public interface ISMState
 
 public interface IOverrideState : ISMState
 {
-    bool OverrideCurrentState();
+    bool OverrideCurrentState(ISMState currentState);
 }
 
 public abstract class SMStateData : ScriptableObject
@@ -43,7 +43,7 @@ public class StateMachine : MonoBehaviour
             var overrideState = kvp.Value as IOverrideState;
             if (overrideState != null 
                 && _currentState != overrideState 
-                && overrideState.OverrideCurrentState())
+                && overrideState.OverrideCurrentState(_currentState))
             {
                 ChangeState(overrideState.GetType());
             }

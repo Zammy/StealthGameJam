@@ -17,7 +17,7 @@ public class ChaseState : IOverrideState
         _data = (ChaseStateData)data;
     }
 
-    public bool OverrideCurrentState()
+    public bool OverrideCurrentState(ISMState currentState)
     {
         var eyesight = _entityContainer.GetEntity<EnemyEyesightEntity>();
         return eyesight.PlayerSpottedPosition != null;

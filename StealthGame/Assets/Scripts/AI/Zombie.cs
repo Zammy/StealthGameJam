@@ -18,6 +18,7 @@ public class Zombie : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float EyesightFOV = 90;
     [SerializeField] float EyesightDistance = 25f;
+    [SerializeField] float NoiseDistanceDiminution = 12f;
 
     void Start()
     {
@@ -26,13 +27,18 @@ public class Zombie : MonoBehaviour
         entityContainer.AddEntity(new PhysicalEntity(transform));
         entityContainer.AddEntity(new EnemySpottableEntity(Visual, SpottableCollider));
         entityContainer.AddEntity(new EnemyEyesightEntity(EyesightFOV, EyesightDistance, Head));
+        entityContainer.AddEntity(new HearingEntity(NoiseDistanceDiminution));
 
         var stateMachine = GetComponent<StateMachine>();
         stateMachine.AddState(new WanderingState(entityContainer));
         stateMachine.AddState(new ChaseState(entityContainer));
+        stateMachine.AddState(new SearchLocationState(entityContainer));
         stateMachine.ChangeState(typeof(WanderingState));
 
         ServiceLocator.Instance.GetService<IVisibilitySystem>()
             .AddEnemy(entityContainer);
+        ServiceLocator.Instance.GetService<IHearingSystem>()
+            .AddEnemy(entityContainer);
+
     }
 }

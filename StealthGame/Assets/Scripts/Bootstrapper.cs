@@ -5,6 +5,7 @@ public class Bootstrapper : MonoBehaviour
     void Awake()
     {
         ServiceLocator.Instance.RegisterService(new VisibilitySystem());
+        ServiceLocator.Instance.RegisterService(new HearingSystem());
     }
 
     void Start()

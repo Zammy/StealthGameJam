@@ -40,9 +40,10 @@ public class Player : MonoBehaviour
     private Vector3 destination;
 
     
-    
     public bool LookatMode = false;
-    
+
+    private NoiseProducerEntity noise;
+
     void Start()
     {
         var entityContainer = GetComponent<IEntityContainer>();
@@ -50,9 +51,12 @@ public class Player : MonoBehaviour
         entityContainer.AddEntity(new PhysicalEntity(transform));
         entityContainer.AddEntity(new EyesightEntity(EyesightFOV, EyesightDistance, Head));
         entityContainer.AddEntity(new SpottableEntity(BodyCollider));
-
+        noise = new NoiseProducerEntity();
+        entityContainer.AddEntity(noise);
 
         ServiceLocator.Instance.GetService<IVisibilitySystem>().AddPlayer(entityContainer);
+        ServiceLocator.Instance.GetService<IHearingSystem>().AddPlayer(entityContainer);
+        
 
         LookatTarget = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         LookatTarget.name = "LookatPos";
@@ -116,7 +120,7 @@ public class Player : MonoBehaviour
 
         //if (Moving && !StealthMode) LookatMode = false;
 
-        NoiseLevel = 100 * (StealthMode ? 0.3f : 1) * (Moving ? 1 : 0);
+        noise.NoiseLevel = NoiseLevel = 100 * (StealthMode ? 0.3f : 1) * (Moving ? 1 : 0);
 
         if (Input.GetMouseButtonDown(0))
         {

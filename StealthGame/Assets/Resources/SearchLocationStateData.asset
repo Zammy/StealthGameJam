@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c082246efcbd92448ab33632310fecf, type: 3}
-  m_Name: Visibility Settings
+  m_Script: {fileID: 11500000, guid: b1f20c96ad890aa43a2792ecf01072fc, type: 3}
+  m_Name: SearchLocationStateData
   m_EditorClassIdentifier: 
-  TargetHeightEyesight: 0.5
-  TimeForZombieToNoticePlayer: 0.25
-  FakeVisionTime: 0.25
+  MovementSpeed: 1.5
+  AngleLookAround: 60
+  LookAroundDuration: 4
