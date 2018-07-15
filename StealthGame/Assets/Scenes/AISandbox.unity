@@ -52,8 +52,8 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -1121,7 +1121,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-1352
+  m_Name: pb_Mesh-2202
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -1351,7 +1351,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 14.82
+      value: 10.301464
       objectReference: {fileID: 0}
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1359,27 +1359,31 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 4.46
+      value: 3.3076625
       objectReference: {fileID: 0}
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.6200972
       objectReference: {fileID: 0}
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.78452504
       objectReference: {fileID: 0}
     - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288999387556006, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -76.646
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95690d9ded2f82e4b945403137b3ed51, type: 2}
@@ -1830,7 +1834,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4564803051562346, guid: 264351c08b7051948b6287affdccb0b9, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.6503103
       objectReference: {fileID: 0}
     - target: {fileID: 4564803051562346, guid: 264351c08b7051948b6287affdccb0b9, type: 2}
       propertyPath: m_LocalRotation.z
@@ -1838,7 +1842,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4564803051562346, guid: 264351c08b7051948b6287affdccb0b9, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7596687
       objectReference: {fileID: 0}
     - target: {fileID: 4564803051562346, guid: 264351c08b7051948b6287affdccb0b9, type: 2}
       propertyPath: m_RootOrder
@@ -1854,6 +1858,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1150527355}
+    - target: {fileID: 4564803051562346, guid: 264351c08b7051948b6287affdccb0b9, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 81.13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 264351c08b7051948b6287affdccb0b9, type: 2}
   m_IsPrefabAsset: 0
@@ -2063,7 +2071,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-1354
+  m_Name: pb_Mesh-2212
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2

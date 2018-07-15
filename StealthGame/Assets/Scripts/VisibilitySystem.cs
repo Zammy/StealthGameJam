@@ -38,11 +38,18 @@ public class VisibilitySystem : IVisibilitySystem
                 if (enemyEyesight.PlayerTimeBeingSpotted > _settings.TimeForZombieToNoticePlayer)
                 {
                     enemyEyesight.PlayerSpottedPosition = playerPhysical.Position;
+                    enemyEyesight.FakeSpotTimeAfterVisibilityLost = _settings.FakeVisionTime;
                 }
+            }
+            else if (enemyEyesight.FakeSpotTimeAfterVisibilityLost > 0)
+            {
+                enemyEyesight.FakeSpotTimeAfterVisibilityLost -= Time.deltaTime;
+                enemyEyesight.PlayerSpottedPosition = playerPhysical.Position;
+                enemyEyesight.PlayerTimeBeingSpotted = _settings.TimeForZombieToNoticePlayer;
             }
             else
             {
-                enemyEyesight.PlayerTimeBeingSpotted = 0f;
+                enemyEyesight.PlayerTimeBeingSpotted = 0;
             }
         }
     }

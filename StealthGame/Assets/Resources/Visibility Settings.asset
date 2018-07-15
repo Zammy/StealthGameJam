@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Name: Visibility Settings
   m_EditorClassIdentifier: 
   TargetHeightEyesight: 0.5
-  TimeForZombieToNoticePlayer: 1
+  TimeForZombieToNoticePlayer: 0.25
+  FakeVisionTime: 1

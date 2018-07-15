@@ -32,11 +32,14 @@ public class ChaseState : IOverrideState
     public IEnumerator OnStateExecute(StateMachine stateMachine)
     {
         var eyesight = _entityContainer.GetEntity<EnemyEyesightEntity>();
+        var physical = _entityContainer.GetEntity<IPhysicalEntity>();
+        var agent = _entityContainer.GetEntity<INavMeshAgent>();
         while (eyesight.PlayerSpottedPosition.HasValue)
         {
             var targetPos = eyesight.PlayerSpottedPosition.Value;
-            yield return Move.Do(_entityContainer, targetPos);
-            if ((eyesight.PlayerSpottedPosition.Value - targetPos).sqrMagnitude < 4f)
+            agent.SetDestination(targetPos);
+            yield return null;
+            if ((targetPos - physical.Position).sqrMagnitude < .5f)
             {
                 eyesight.PlayerSpottedPosition = null;
             }
@@ -47,5 +50,4 @@ public class ChaseState : IOverrideState
     public void OnStateExit()
     {
     }
-
 }

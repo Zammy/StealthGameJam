@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
             }
             _goto = StartCoroutine(Move.Do(GetComponent<IEntityContainer>(), destination));
 
-            Debug.Log("Double click.");
+            // Debug.Log("Double click.");
             ClickCounter = 0;
         }
 
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
             }
             _goto = StartCoroutine(Move.Do(GetComponent<IEntityContainer>(), destination));
 
-            Debug.Log("Single Click.");
+            // Debug.Log("Single Click.");
             ClickCounter = 0;
         }
         
