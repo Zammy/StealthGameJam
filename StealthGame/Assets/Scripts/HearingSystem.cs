@@ -31,24 +31,31 @@ public class HearingSystem : IHearingSystem
 
     public void Update()
     {
-        var playerNoise = _player.GetEntity<NoiseProducerEntity>();
-        var playerPhysical = _player.GetEntity<PhysicalEntity>();
+        _player.GetEntity<HearingEntity>()
+            .NoiseLocations.Clear();
         foreach (var enemy in _enemies)
         {
             var enemyHearing = enemy.GetEntity<HearingEntity>();
-            var enemyPhysical = enemy.GetEntity<PhysicalEntity>();
+            enemyHearing.NoiseLocations.Clear();
 
-            var diff = enemyPhysical.Position - playerPhysical.Position;
-            float distance = diff.magnitude;
-            float diminuation = distance * enemyHearing.NoiseDistanceDiminution;
-            if (playerNoise.NoiseLevel - diminuation > 0)
-            {
-                enemyHearing.NoiseLocation = playerPhysical.Position;
-            }
-            else
-            {
-                enemyHearing.NoiseLocation = null;
-            }
+            CheckHearing(enemy, _player);
+            CheckHearing(_player, enemy);
+        }
+    }
+
+    void CheckHearing(IEntityContainer listeningOne, IEntityContainer noiseMakingOne)
+    {
+        var hearing = listeningOne.GetEntity<HearingEntity>();
+        var hearingPhysical = listeningOne.GetEntity<IPhysicalEntity>();
+        var noiseMakingPhysical = noiseMakingOne.GetEntity<IPhysicalEntity>();
+        var noise = noiseMakingOne.GetEntity<NoiseProducerEntity>();
+
+        var diff = hearingPhysical.Position - noiseMakingPhysical.Position;
+        float distance = diff.magnitude;
+        float diminuation = distance * hearing.NoiseDistanceDiminution;
+        if (noise.NoiseLevel - diminuation > 0)
+        {
+            hearing.NoiseLocations.Add(noiseMakingPhysical.Position);
         }
     }
 }

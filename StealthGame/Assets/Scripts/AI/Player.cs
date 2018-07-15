@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public float clickTime = .25f;
     public float HeadTurnSpeed = .25f;
     public float PeekingDistance = 2f;
+    public float NoiseDistanceDiminution = 12f;
 
 
     [Header("References")]
@@ -53,10 +54,10 @@ public class Player : MonoBehaviour
         entityContainer.AddEntity(new SpottableEntity(BodyCollider));
         noise = new NoiseProducerEntity();
         entityContainer.AddEntity(noise);
+        entityContainer.AddEntity(new HearingEntity(NoiseDistanceDiminution));
 
         ServiceLocator.Instance.GetService<IVisibilitySystem>().AddPlayer(entityContainer);
         ServiceLocator.Instance.GetService<IHearingSystem>().AddPlayer(entityContainer);
-        
 
         LookatTarget = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         LookatTarget.name = "LookatPos";

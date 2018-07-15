@@ -19,6 +19,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] float EyesightFOV = 90;
     [SerializeField] float EyesightDistance = 25f;
     [SerializeField] float NoiseDistanceDiminution = 12f;
+    [SerializeField] float BaseNoiseLevel = 150f;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class Zombie : MonoBehaviour
         entityContainer.AddEntity(new EnemySpottableEntity(Visual, SpottableCollider));
         entityContainer.AddEntity(new EnemyEyesightEntity(EyesightFOV, EyesightDistance, Head));
         entityContainer.AddEntity(new HearingEntity(NoiseDistanceDiminution));
+        entityContainer.AddEntity(new NoiseProducerEntity() { NoiseLevel = BaseNoiseLevel });
 
         var stateMachine = GetComponent<StateMachine>();
         stateMachine.AddState(new WanderingState(entityContainer));

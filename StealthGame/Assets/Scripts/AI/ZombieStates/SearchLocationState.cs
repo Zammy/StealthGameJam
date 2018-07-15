@@ -26,13 +26,22 @@ public class SearchLocationState : IOverrideState
     public bool OverrideCurrentState(ISMState currentState)
     {
         var hearing = _entityContainer.GetEntity<HearingEntity>();
-        return hearing.NoiseLocation.HasValue && currentState.GetType() != typeof(ChaseState);
+        return hearing.NoiseLocations.Count > 0 && currentState.GetType() != typeof(ChaseState);
     }
 
     public IEnumerator OnStateExecute(StateMachine sm)
     {
         var hearing = _entityContainer.GetEntity<HearingEntity>();
-        yield return sm.StartCoroutine(Move.Do(_entityContainer, hearing.NoiseLocation.Value));
+        var agent = _entityContainer.GetEntity<INavMeshAgent>();
+        while (hearing.NoiseLocations.Count > 0)
+        {
+            agent.SetDestination(hearing.NoiseLocations[0]);
+            yield return null;
+        }
+        while (!agent.IsDestinationReached())
+        {
+            yield return null;
+        }
 
         var phyiscal = _entityContainer.GetEntity<IPhysicalEntity>();
         yield return sm.StartCoroutine(Rotation.Do(phyiscal, _data.AngleLookAround, _data.LookAroundDuration / 4));
@@ -45,6 +54,4 @@ public class SearchLocationState : IOverrideState
     public void OnStateExit()
     {
     }
-
-
 }

@@ -280,6 +280,7 @@ MonoBehaviour:
   EyesightFOV: 90
   EyesightDistance: 15
   NoiseDistanceDiminution: 12
+  BaseNoiseLevel: 250
 --- !u!114 &114988575692892776
 MonoBehaviour:
   m_ObjectHideFlags: 1
