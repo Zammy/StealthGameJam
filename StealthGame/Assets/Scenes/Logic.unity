@@ -228,8 +228,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 966285029}
-  FootstepsIconPrefab: {fileID: 1019077626917060, guid: 662905e01db6eaa4b9174d93c91dc3f1,
-    type: 2}
+  IconPrefab: {fileID: 1019077626917060, guid: 662905e01db6eaa4b9174d93c91dc3f1, type: 2}
+  WalkingSprite: {fileID: 21300000, guid: 738c9913122c58b4d85086e533554fec, type: 3}
+  RoarSprite: {fileID: 21300000, guid: 396dbe93b9c599f46bf6f34c45c595cf, type: 3}
+  ClickerScreamSprite: {fileID: 21300000, guid: c5ccc928699a12d44aa0060f1ad6ec8f,
+    type: 3}
 --- !u!1 &966285026
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,9 @@ public class SearchLocationState : BaseState, IOverrideState
     public bool ShouldOverrideCurrentState(ISMState currentState)
     {
         var hearing = _entityContainer.GetEntity<HearingEntity>();
-        return hearing.NoiseEntities.Count > 0 && currentState.GetType() != typeof(ChaseState);
+        return hearing.NoiseEntities.Count > 0
+            && currentState.GetType() != typeof(ChaseState)
+            && currentState.GetType() != typeof(ClickerChaseState);
     }
 
     public override IEnumerator OnStateExecute(StateMachine sm)
@@ -19,7 +21,7 @@ public class SearchLocationState : BaseState, IOverrideState
         var hearing = _entityContainer.GetEntity<HearingEntity>();
         var agent = _entityContainer.GetEntity<INavMeshAgent>();
         var noise = _entityContainer.GetEntity<NoiseProducerEntity>();
-        noise.NoiseLevel += Data.ExtraNoiseWhenWalking;
+        noise.NoiseLevel += Data.WalkExtraNoise;
         while (hearing.NoiseEntities.Count > 0)
         {
             var noisePos = hearing.NoiseEntities[0].GetEntity<IPhysicalEntity>().Position;
@@ -30,7 +32,7 @@ public class SearchLocationState : BaseState, IOverrideState
         {
             yield return null;
         }
-        noise.NoiseLevel -= Data.ExtraNoiseWhenWalking;
+        noise.NoiseLevel -= Data.WalkExtraNoise;
 
         var phyiscal = _entityContainer.GetEntity<IPhysicalEntity>();
         yield return sm.StartCoroutine(Rotation.Do(phyiscal, Data.AngleLookAround, Data.LookAroundDuration / 4));

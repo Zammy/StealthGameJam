@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public interface IHearingSystem : IService, ITickable
@@ -40,6 +41,15 @@ public class HearingSystem : IHearingSystem
 
             CheckHearing(enemy, _player);
             CheckHearing(_player, enemy);
+
+            var enemyNoise = enemy.GetEntity<NoiseProducerEntity>();
+            if (enemyNoise.Type == NoiseType.ClickerScream)
+            {
+                foreach (var otherEnemy in _enemies.Where(e => e != enemy))
+                {
+                    CheckHearing(otherEnemy, enemy);
+                }
+            }
         }
     }
 

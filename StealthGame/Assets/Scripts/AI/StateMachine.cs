@@ -41,8 +41,8 @@ public class StateMachine : MonoBehaviour
         foreach (var kvp in _states)
         {
             var overrideState = kvp.Value as IOverrideState;
-            if (overrideState != null 
-                && _currentState != overrideState 
+            if (overrideState != null
+                && _currentState != overrideState
                 && overrideState.ShouldOverrideCurrentState(_currentState))
             {
                 ChangeState(overrideState.GetType());
@@ -61,14 +61,14 @@ public class StateMachine : MonoBehaviour
     {
         if (_currentState != null)
         {
-            Debug.LogFormat("Exit [{0}]", _currentState.GetType().Name);
+            Debug.LogFormat("({1}) Exit [{0}]", _currentState.GetType().Name, gameObject.name);
             _currentState.OnStateExit();
             StopCoroutine(_currentStateExecute);
         }
         _currentState = _states[stateType];
-        Debug.LogFormat("Enter [{0}]", _currentState.GetType().Name);
+        Debug.LogFormat("({1}) Enter [{0}]", _currentState.GetType().Name, gameObject.name);
         _currentState.OnStateEnter();
-        Debug.LogFormat("Execute [{0}]", _currentState.GetType().Name);
+        Debug.LogFormat("({1}) Execute [{0}]", _currentState.GetType().Name, gameObject.name);
         _currentStateExecute = StartCoroutine(_currentState.OnStateExecute(this));
     }
 }

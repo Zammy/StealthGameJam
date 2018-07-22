@@ -1,6 +1,10 @@
+using UnityEngine.Serialization;
+
 public abstract class BaseStateData : SMStateData
 {
     public float MovementSpeed;
-    public float ExtraNoiseWhenWalking;
+    [FormerlySerializedAsAttribute("ExtraNoiseWhenWalking")]
+    public float WalkExtraNoise;
+    public float RoarExtraNoise;
 
 }

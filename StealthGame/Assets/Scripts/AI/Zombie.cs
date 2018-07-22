@@ -21,6 +21,10 @@ public class Zombie : MonoBehaviour
     [SerializeField] float NoiseDistanceDiminution = 12f;
     [SerializeField] float BaseNoiseLevel = 50f;
 
+    [Header("Sounds")]
+    [SerializeField] AudioSource WalkingSound;
+    [SerializeField] AudioSource RoarSound;
+
     void Start()
     {
         var entityContainer = GetComponent<IEntityContainer>();
@@ -30,6 +34,11 @@ public class Zombie : MonoBehaviour
         entityContainer.AddEntity(new EnemyEyesightEntity(EyesightFOV, EyesightDistance, Head));
         entityContainer.AddEntity(new HearingEntity(NoiseDistanceDiminution));
         entityContainer.AddEntity(new NoiseProducerEntity() { NoiseLevel = BaseNoiseLevel });
+        entityContainer.AddEntity(new SoundSourceEntity(new Dictionary<SoundTypes, AudioSource>()
+        {
+            { SoundTypes.Walking, WalkingSound},
+            { SoundTypes.Roar, RoarSound}
+        }));
 
         var stateMachine = GetComponent<StateMachine>();
         stateMachine.AddState(new WanderingState(entityContainer));

@@ -13,16 +13,41 @@ public class WanderingState : BaseState
         var physicalEntity = _entityContainer.GetEntity<IPhysicalEntity>();
         var agent = _entityContainer.GetEntity<INavMeshAgent>();
         var noise = _entityContainer.GetEntity<NoiseProducerEntity>();
+        var soundSource = _entityContainer.GetEntity<SoundSourceEntity>();
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(Data.MinWait, Data.MaxWait));
+            if (soundSource != null)
+            {
+                soundSource.PlaySound(SoundTypes.Roar);
+            }
+            noise.NoiseLevel += Data.RoarExtraNoise;
+            noise.Type = NoiseType.Roar;
+            float wait = Random.Range(Data.MinWait, Data.MaxWait);
+            yield return new WaitForSeconds(1f);
+            wait -= 1f;
+            noise.NoiseLevel -= Data.RoarExtraNoise;
+            noise.Type = NoiseType.Footsteps;
+            yield return new WaitForSeconds(wait);
 
             float distance = Random.Range(Data.MinDistance, Data.MaxDistance);
             Vector3 dest = physicalEntity.Position.RandomPosAround(distance);
             dest = agent.GetClosestToNavMeshPoint(dest);
-            noise.NoiseLevel += Data.ExtraNoiseWhenWalking;
+
+            if (soundSource != null)
+            {
+                soundSource.PlaySound(SoundTypes.Walking);
+            }
+            noise.NoiseLevel += Data.WalkExtraNoise;
+            noise.Type = NoiseType.Footsteps;
+
             yield return Move.Do(_entityContainer, dest);
-            noise.NoiseLevel -= Data.ExtraNoiseWhenWalking;
+
+            noise.NoiseLevel -= Data.WalkExtraNoise;
+            noise.Type = NoiseType.Footsteps;
+            if (soundSource != null)
+            {
+                soundSource.StopSound(SoundTypes.Walking);
+            }
         }
     }
 
